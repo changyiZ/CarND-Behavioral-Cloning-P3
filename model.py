@@ -1,3 +1,7 @@
+import theano
+theano.config.device = 'gpu'
+theano.config.floatX = 'float32'
+
 import csv
 from os import getcwd
 
@@ -10,10 +14,6 @@ from keras.layers.core import Dense, Flatten, Lambda, Dropout
 from keras.models import Sequential
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
-
-import theano
-theano.config.device = 'gpu'
-theano.config.floatX = 'float32'
 
 
 # tf.python.control_flow_ops = tf

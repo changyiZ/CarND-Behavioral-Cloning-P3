@@ -2,18 +2,19 @@ import csv
 from os import getcwd
 
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
-import tensorflow as tf
 from keras.callbacks import ModelCheckpoint
 from keras.layers.advanced_activations import ELU
 from keras.layers.convolutional import Convolution2D
 from keras.layers.core import Dense, Flatten, Lambda, Dropout
 from keras.models import Sequential
-from keras.optimizers import Adam
-from keras.regularizers import l2
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
+
+import theano
+theano.config.device = 'gpu'
+theano.config.floatX = 'float32'
+
 
 # tf.python.control_flow_ops = tf
 
@@ -370,11 +371,11 @@ if not just_checkin_the_data:
     print(model.summary())
 
     # visualize some predictions
-    n = 12
-    X_test, y_test = generate_training_data_for_visualization(image_paths_test[:n], angles_test[:n], batch_size=n,
-                                                              validation_flag=True)
-    y_pred = model.predict(X_test, n, verbose=2)
-    visualize_dataset(X_test, y_test, y_pred)
+    # n = 12
+    # X_test, y_test = generate_training_data_for_visualization(image_paths_test[:n], angles_test[:n], batch_size=n,
+    #                                                           validation_flag=True)
+    # y_pred = model.predict(X_test, n, verbose=2)
+    # visualize_dataset(X_test, y_test, y_pred)
 
     # Save model data
     model.save_weights('./model.h5')

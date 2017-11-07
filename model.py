@@ -183,11 +183,16 @@ using_my_data = True
 using_udacity_data = False
 
 data_to_use = [using_my_data, using_udacity_data]
-img_path_prepend = ['', getcwd() + '/data/']
+img_path_prepend = ['./training_data/data1/IMG/', getcwd() + '/data/']
 csv_path = ['./training_data/driving_log.csv', './data/driving_log.csv']
 
 image_paths = []
 angles = []
+
+
+def get_current_path(current_dir, path):
+    filename = path.split('/')[-1]
+    return current_dir + filename
 
 for j in range(2):
     if not data_to_use[j]:
@@ -204,13 +209,13 @@ for j in range(2):
         if float(row[6]) < 0.1:
             continue
         # get center image path and angle
-        image_paths.append(img_path_prepend[j] + row[0])
+        image_paths.append(get_current_path(img_path_prepend[j], row[0]))
         angles.append(float(row[3]))
         # get left image path and angle
-        image_paths.append(img_path_prepend[j] + row[1])
+        image_paths.append(get_current_path(img_path_prepend[j], row[1]))
         angles.append(float(row[3]) + 0.25)
         # get left image path and angle
-        image_paths.append(img_path_prepend[j] + row[2])
+        image_paths.append(get_current_path(img_path_prepend[j], row[2]))
         angles.append(float(row[3]) - 0.25)
 
 image_paths = np.array(image_paths)

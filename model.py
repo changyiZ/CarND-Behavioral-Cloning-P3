@@ -224,8 +224,8 @@ avg_samples_per_bin = len(angles) / num_bins
 hist, bins = np.histogram(angles, num_bins)
 width = 0.7 * (bins[1] - bins[0])
 center = (bins[:-1] + bins[1:]) / 2
-plt.bar(center, hist, align='center', width=width)
-plt.plot((np.min(angles), np.max(angles)), (avg_samples_per_bin, avg_samples_per_bin), 'k-')
+# plt.bar(center, hist, align='center', width=width)
+# plt.plot((np.min(angles), np.max(angles)), (avg_samples_per_bin, avg_samples_per_bin), 'k-')
 # plt.show()
 
 # determine keep probability for each bin: if below avg_samples_per_bin, keep all; otherwise keep prob is proportional
@@ -249,8 +249,8 @@ angles = np.delete(angles, remove_list)
 
 # print histogram again to show more even distribution of steering angles
 hist, bins = np.histogram(angles, num_bins)
-plt.bar(center, hist, align='center', width=width)
-plt.plot((np.min(angles), np.max(angles)), (avg_samples_per_bin, avg_samples_per_bin), 'k-')
+# plt.bar(center, hist, align='center', width=width)
+# plt.plot((np.min(angles), np.max(angles)), (avg_samples_per_bin, avg_samples_per_bin), 'k-')
 # plt.show()
 
 print('After:', image_paths.shape, angles.shape)

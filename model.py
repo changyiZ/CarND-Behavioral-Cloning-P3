@@ -15,7 +15,7 @@ from keras.regularizers import l2
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 
-tf.python.control_flow_ops = tf
+# tf.python.control_flow_ops = tf
 
 
 # example of opening/displaying image w/ pillow

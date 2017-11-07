@@ -179,8 +179,8 @@ Main program
 '''
 
 # select data source(s) here
-using_my_data = False
-using_udacity_data = True
+using_my_data = True
+using_udacity_data = False
 
 data_to_use = [using_my_data, using_udacity_data]
 img_path_prepend = ['', getcwd() + '/data/']

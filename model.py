@@ -1,11 +1,8 @@
-import theano
-theano.config.device = 'gpu'
-theano.config.floatX = 'float32'
-
 import csv
 from os import getcwd
 
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 from keras.callbacks import ModelCheckpoint
 from keras.layers.advanced_activations import ELU
@@ -181,11 +178,12 @@ Main program
 
 # select data source(s) here
 using_my_data = True
+using_recovery_data = True
 using_udacity_data = False
 
-data_to_use = [using_my_data, using_udacity_data]
-img_path_prepend = ['./training_data/data1/IMG/', getcwd() + '/data/']
-csv_path = ['./training_data/driving_log.csv', './data/driving_log.csv']
+data_to_use = [using_my_data, using_recovery_data, using_udacity_data]
+img_path_prepend = ['./training_data/IMG/', './recovery_data/IMG/', getcwd() + '/data/']
+csv_path = ['./training_data/driving_log.csv', './recovery_data/driving_log.csv', './data/driving_log.csv']
 
 image_paths = []
 angles = []
@@ -195,7 +193,7 @@ def get_current_path(current_dir, path):
     filename = path.split('/')[-1]
     return current_dir + filename
 
-for j in range(2):
+for j in range(3):
     if not data_to_use[j]:
         # 0 = my own data, 1 = Udacity supplied data
         print('not using dataset ', j)
@@ -230,9 +228,9 @@ avg_samples_per_bin = len(angles) / num_bins
 hist, bins = np.histogram(angles, num_bins)
 width = 0.7 * (bins[1] - bins[0])
 center = (bins[:-1] + bins[1:]) / 2
-# plt.bar(center, hist, align='center', width=width)
-# plt.plot((np.min(angles), np.max(angles)), (avg_samples_per_bin, avg_samples_per_bin), 'k-')
-# plt.show()
+plt.bar(center, hist, align='center', width=width)
+plt.plot((np.min(angles), np.max(angles)), (avg_samples_per_bin, avg_samples_per_bin), 'k-')
+plt.show()
 
 # determine keep probability for each bin: if below avg_samples_per_bin, keep all; otherwise keep prob is proportional
 # to number of samples above the average, so as to bring the number of samples for that bin down to the average
@@ -255,15 +253,15 @@ angles = np.delete(angles, remove_list)
 
 # print histogram again to show more even distribution of steering angles
 hist, bins = np.histogram(angles, num_bins)
-# plt.bar(center, hist, align='center', width=width)
-# plt.plot((np.min(angles), np.max(angles)), (avg_samples_per_bin, avg_samples_per_bin), 'k-')
-# plt.show()
+plt.bar(center, hist, align='center', width=width)
+plt.plot((np.min(angles), np.max(angles)), (avg_samples_per_bin, avg_samples_per_bin), 'k-')
+plt.show()
 
 print('After:', image_paths.shape, angles.shape)
 
 # visualize a single batch of the data
-# X, y = generate_training_data_for_visualization(image_paths, angles)
-# visualize_dataset(X, y)
+X, y = generate_training_data_for_visualization(image_paths, angles)
+visualize_dataset(X, y)
 
 # split into train/test sets
 image_paths_train, image_paths_test, angles_train, angles_test = train_test_split(image_paths, angles,
@@ -299,7 +297,7 @@ def get_model(ch, row, col):
 
 
 # for debugging purposes - don't want to mess with the model if just checkin' the data
-just_checkin_the_data = False
+just_checkin_the_data = True
 
 if not just_checkin_the_data:
     # model = Sequential()

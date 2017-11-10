@@ -13,20 +13,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 
 
-# tf.python.control_flow_ops = tf
-
-
-# example of opening/displaying image w/ pillow
-# img = Image.open('test.png')
-# img.show()
-
-# example of opening/displaying image w/ cv2
-# img = cv2.imread('test.png')
-# cv2.imshow('image',img)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
-
-def displayCV2(img):
+def display_cv2(img):
     '''
     Utility method to display a CV2 Image
     '''
@@ -64,7 +51,7 @@ def visualize_dataset(X, y, y_pred=None):
             img = process_img_for_visualization(X[i], y[i], y_pred[i], i)
         else:
             img = process_img_for_visualization(X[i], y[i], None, i)
-        displayCV2(img)
+        display_cv2(img)
 
 
 def preprocess_image(img):
@@ -73,17 +60,10 @@ def preprocess_image(img):
     BGR to YUV and drive.py uses RGB to YUV (due to using cv2 to read the image here, where drive.py images are
     received in RGB)
     '''
-    # original shape: 160x320x3, input shape for neural net: 66x200x3
-    # crop to 105x320x3
-    # new_img = img[35:140,:,:]
     # crop to 90x320x3
     new_img = img[50:140, :, :]
     # apply subtle blur
     new_img = cv2.GaussianBlur(new_img, (3, 3), 0)
-    # scale to 66x200x3 (same as nVidia)
-    # new_img = cv2.resize(new_img, (200, 66), interpolation=cv2.INTER_AREA)
-    # scale to ?x?x3
-    # new_img = cv2.resize(new_img,(80, 10), interpolation = cv2.INTER_AREA)
     # convert to YUV color space (as nVidia paper suggests)
     new_img = cv2.cvtColor(new_img, cv2.COLOR_BGR2YUV)
     return new_img
@@ -169,7 +149,7 @@ def generate_training_data_for_visualization(image_paths, angles, batch_size=20,
             img, angle = random_distort(img, angle)
         X.append(img)
         y.append(angle)
-    return (np.array(X), np.array(y))
+    return np.array(X), np.array(y)
 
 
 '''
@@ -192,6 +172,7 @@ angles = []
 def get_current_path(current_dir, path):
     filename = path.split('/')[-1]
     return current_dir + filename
+
 
 for j in range(3):
     if not data_to_use[j]:
@@ -244,7 +225,7 @@ for i in range(num_bins):
 remove_list = []
 for i in range(len(angles)):
     for j in range(num_bins):
-        if angles[i] > bins[j] and angles[i] <= bins[j + 1]:
+        if bins[j] < angles[i] <= bins[j + 1]:
             # delete from X and y with probability 1 - keep_probs[j]
             if np.random.rand() > keep_probs[j]:
                 remove_list.append(i)
@@ -297,51 +278,9 @@ def get_model(ch, row, col):
 
 
 # for debugging purposes - don't want to mess with the model if just checkin' the data
-just_checkin_the_data = True
+just_checking_the_data = False
 
-if not just_checkin_the_data:
-    # model = Sequential()
-    #
-    # # Normalize
-    # model.add(Lambda(lambda x: x / 127.5 - 1.0, input_shape=(66, 200, 3)))
-    #
-    # # Add three 5x5 convolution layers (output depth 24, 36, and 48), each with 2x2 stride
-    # model.add(Convolution2D(24, (5, 5), strides=(2, 2), padding='valid', kernel_regularizer=l2(0.001)))
-    # model.add(ELU())
-    # model.add(Convolution2D(36, 5, 5, subsample=(2, 2), border_mode='valid', W_regularizer=l2(0.001)))
-    # model.add(ELU())
-    # model.add(Convolution2D(48, 5, 5, subsample=(2, 2), border_mode='valid', W_regularizer=l2(0.001)))
-    # model.add(ELU())
-    #
-    # # model.add(Dropout(0.50))
-    #
-    # # Add two 3x3 convolution layers (output depth 64, and 64)
-    # model.add(Convolution2D(64, 3, 3, border_mode='valid', W_regularizer=l2(0.001)))
-    # model.add(ELU())
-    # model.add(Convolution2D(64, 3, 3, border_mode='valid', W_regularizer=l2(0.001)))
-    # model.add(ELU())
-    #
-    # # Add a flatten layer
-    # model.add(Flatten())
-    #
-    # # Add three fully connected layers (depth 100, 50, 10), tanh activation (and dropouts)
-    # model.add(Dense(100, kernel_regularizer=l2(0.001)))
-    # model.add(ELU())
-    # # model.add(Dropout(0.50))
-    # model.add(Dense(50, kernel_regularizer=l2(0.001)))
-    # model.add(ELU())
-    # # model.add(Dropout(0.50))
-    # model.add(Dense(10, kernel_regularizer=l2(0.001)))
-    # model.add(ELU())
-    # # model.add(Dropout(0.50))
-    #
-    # # Add a fully connected output layer
-    # model.add(Dense(1))
-    #
-    # # Compile and train the model,
-    # # model.compile('adam', 'mean_squared_error')
-    # model.compile(optimizer=Adam(lr=1e-4), loss='mse')
-
+if not just_checking_the_data:
     model = get_model(3, 90, 320)
 
     ############  just for tweaking model ##############
@@ -369,11 +308,11 @@ if not just_checkin_the_data:
     print(model.summary())
 
     # visualize some predictions
-    # n = 12
-    # X_test, y_test = generate_training_data_for_visualization(image_paths_test[:n], angles_test[:n], batch_size=n,
-    #                                                           validation_flag=True)
-    # y_pred = model.predict(X_test, n, verbose=2)
-    # visualize_dataset(X_test, y_test, y_pred)
+    n = 12
+    X_test, y_test = generate_training_data_for_visualization(image_paths_test[:n], angles_test[:n], batch_size=n,
+                                                              validation_flag=True)
+    y_pred = model.predict(X_test, n, verbose=2)
+    visualize_dataset(X_test, y_test, y_pred)
 
     # Save model data
     model.save_weights('./model.h5')

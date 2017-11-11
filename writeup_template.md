@@ -99,9 +99,9 @@ Recording on driving in counter-clockwise is resistant for left turn bias.
 * random brightness adjustments, artificial shadows, and horizon shifts on images. (refer to [Jeremy Shannon](https://medium.com/udacity/udacity-self-driving-car-nanodegree-project-3-behavioral-cloning-446461b7c7f9))
 
 Here is an example image of random distort:
-![alt text][image1]
-![alt text][image2]
 ![alt text][image3]
+![alt text][image4]
+![alt text][image5]
 
 ####6. Data Distribution Flattening
 The test track includes long sections with very slight or no curvature which would cause a biase for straight driving.
@@ -112,6 +112,6 @@ But for the categories with larger count, we discard partly on them.
 (More details described in model.py at line 216 - 233).
 
 The distribution of the input data can be observed below,
-![alt text][image4]
+![alt text][image1]
 And the resulting data distribution can be seen in the chart below.
-![alt text][image5]
+![alt text][image2]

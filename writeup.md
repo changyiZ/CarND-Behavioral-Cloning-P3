@@ -45,8 +45,8 @@ The model.py file contains the code for training and saving the convolution neur
 ####1. An appropriate model architecture has been employed
 
 Instead of using [nVidia model](https://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf)
-as Udacity suggested, I chosed to try another business model from [comma.ai model](https://github.com/commaai/research/blob/master/train_steering_model.py))
-
+as Udacity suggested, 
+I chosed to try another business model from [comma.ai model](https://github.com/commaai/research/blob/master/train_steering_model.py).
 My final model consisted of the following layers:
 
 | Layer         		|     Description	        					| 
@@ -93,6 +93,7 @@ So do not think AI goes like you think, just give it enough data...)
 Recording on driving in counter-clockwise is resistant for left turn bias.
 
 ####5. Data preprocessing and augmentation
+
 * crop image by removing top and bottom parts of useless information.
 * use side camera images, create adjusted steering measurements (+0.25 for the left, -0.25 for the right).
 * flip images, along with the steer angle, if magnitude is > 0.33
@@ -104,6 +105,7 @@ Here is an example image of random distort:
 ![alt text][image5]
 
 ####6. Data Distribution Flattening
+
 The test track includes long sections with very slight or no curvature which would cause a biase for straight driving.
 So we should flat the data on different steer angles.
 Firstly, we category the data by angles. 

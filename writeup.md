@@ -70,11 +70,13 @@ My final model consisted of the following layers:
 
 The model contains two dropout layers in order to reduce overfitting. 
 
+
 ####3. Model parameter tuning
 
 The Adam optimizer was chosen with default parameters, so the learning rate was not tuned manually.
 and the chosen loss function was mean squared error (MSE).
 (as described in method "get_model")
+
 
 ####4. Appropriate training data
 
@@ -92,6 +94,7 @@ So do not think AI goes like you think, just give it enough data...)
 
 Recording on driving in counter-clockwise is resistant for left turn bias.
 
+
 ####5. Data preprocessing and augmentation
 
 * crop image by removing top and bottom parts of useless information.
@@ -103,6 +106,7 @@ Here is an example image of random distort:
 ![alt text][image3]
 ![alt text][image4]
 ![alt text][image5]
+
 
 ####6. Data Distribution Flattening
 

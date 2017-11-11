@@ -12,9 +12,9 @@ The goals / steps of this project are the following:
 
 [image1]: ./examples/input_data_set.png "Input data"
 [image2]: ./examples/flattening_data_set.png "flattening"
-[image3]: ./examples/picture1.png "Random1"
-[image4]: ./examples/picture2.png "Random2"
-[image5]: ./examples/picture3.png "Random3"
+[image3]: ./examples/picture1.jpg "Random1"
+[image4]: ./examples/picture2.jpg "Random2"
+[image5]: ./examples/picture3.jpg "Random3"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
